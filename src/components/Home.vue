@@ -7,9 +7,10 @@
 
       <div v-if="loading">Loading...</div>
       <div v-else>
-        API result {{apiRes}}
+        <div v-for="item in boards" :key="item.id">
+          {{ item }}}
+        </div>
       </div>
-      <div v-if="error"><pre>{{error}}</pre></div>
       <ul>
         <li>
           <router-link to="/b/1">Board 1</router-link>
@@ -29,8 +30,7 @@ export default {
   data() {
     return {
       loading: false,
-      apiRes: '',
-      error: ''
+      boards: [],
     }
   },
 
@@ -42,15 +42,18 @@ export default {
     fetchData() {
       this.loading = true;
 
-
-      axios.get('http://localhost:3000/health')
+      // 응답(성공)
+      axios.get('http://localhost:3000/boards')
       .then( res => {
-        this.apiRes = res.data
+        this.boards = res.data
       })
+
+      // 응답(실패)
       .catch( res => {
-        this.error = res.response.data
+        // 로그인 페이지로 이동 시키기
+        this.$router.replace('/login');
       })
-        // then catch 가 모두 수행되고서 수행될 로직
+      // 응답(항상 실행)
       .finally( () => {
         this.loading = false;
       })
