@@ -43,12 +43,12 @@ export default {
     fetchData() {
       this.loading = true;
       board.fetch()
-      .then( data => {
-        this.boards = data;
-      })
-      .finally( () => {
-        this.loading = false;
-      })
+        .then( data => {
+          this.boards = data;
+        })
+        .finally( () => {
+          this.loading = false;
+        })
 
     }
   }

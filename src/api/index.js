@@ -12,15 +12,13 @@ const request = (method, url, data) => {
     method,
     url: DOMAIN + url,
     data
-  }).then( result => {
-    result.data
-  }).catch( result => {
-    const { status } = result.response
+  }).then( result => result.data )
+    .catch( error => {
+      const { status } = error.response
 
-    if( status === UNAUTHORIZED ) return onUnauthorized()
-    throw Error(result) // 정의되지 않은 error 들 처리
-
-  })
+      if( status === UNAUTHORIZED ) return onUnauthorized()
+      throw Error(error) // 정의되지 않은 error 들 처리
+    })
 }
 
 export const board = {

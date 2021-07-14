@@ -7,20 +7,26 @@ import Board from '../components/Board'
 import Card from '../components/Card'
 import NotFound from '../components/NotFound'
 
-// index.js 라우팅 관련 로직만 기재
 Vue.use(VueRouter)
+
+const requireAuth = ( to, from, next ) => {
+  const isAuth = localStorage.getItem('token');
+  // URI로 데이터를 전달하기 위해서 문자열을 인코딩
+  const loginPath = `/login?rPath=${ encodeURIComponent( to.path ) }`
+  isAuth ? next() : next( loginPath );
+}
 
 const router = new VueRouter({
   mode: 'history',
 
   routes : [
-    { path: '/', component: Home },
+    { path: '/', component: Home, beforeEnter : requireAuth },
     { path: '/login', component: Login },
 
     // 중첩 라우팅 설정 시, 상위 컴포넌트에 하위 컴포넌트가 출력될 부분 지정 필요
     {
-      path: '/b/:bid', component: Board, children: [
-        { path: 'c/:cid', component: Card }
+      path: '/b/:bid', component: Board, beforeEnter : requireAuth, children: [
+        { path: 'c/:cid', component: Card, beforeEnter : requireAuth }
       ]
     },
 
