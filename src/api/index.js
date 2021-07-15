@@ -21,8 +21,21 @@ const request = (method, url, data) => {
     })
 }
 
+// header 값을 토큰 정보로 설정
+export const setAuthInHeader = token => {
+  // 글로벌 axios 기본(defaults) 설정
+  axios.defaults.headers.common['Authorization'] = token ? `Bearer ${token}` : null
+}
+
 export const board = {
   fetch() {
     return request('get', '/boards')
+  }
+}
+
+// 인증을 위한 auth 객체
+export const auth = {
+  login( email, password ) {
+    return request('post','/login', { email, password })
   }
 }
