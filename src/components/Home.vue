@@ -10,20 +10,20 @@
       </div>
 
       <div class="board-item board-item-new">
-        <a href="" class="new-board-btn" @click.prevent="addBoard">
+        <a href="" class="new-board-btn" @click.prevent="SET_IS_ADD_BOARD(true)">
           Create new board...
         </a>
       </div>
     </div>
     <!-- popup -->
-    <AddBoard v-if="isAddBoard" @close="isAddBoard = false" @submit="onAddBoard"/>
+    <AddBoard v-if="isAddBoard" @submit="onAddBoard"/>
   </div>
 </template>
 
 <script>
 import { board } from '../api';
 import AddBoard from "./AddBoard";
-import { mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 
 export default {
   components: {
@@ -34,19 +34,13 @@ export default {
     return {
       loading: false,
       boards: [],
-      // isAddBoard: false
     }
   },
 
   computed: {
-    // computed 속성에 mapState 결과값을 설정해버리면 따로 computed 속성을 추가할 수 없기 때문에 es6 해체 문법을 사용
     ...mapState([
       'isAddBoard'
     ]),
-
-    // isAddBoard() {
-    //   return this.$store.state.isAddBoard
-    // }
   },
 
   created() {
@@ -60,6 +54,10 @@ export default {
   },
 
   methods: {
+    ...mapMutations([
+      'SET_IS_ADD_BOARD'
+    ]),
+
     fetchData() {
       this.loading = true;
 
@@ -70,11 +68,6 @@ export default {
         .finally( () => {
           this.loading = false;
         })
-    },
-
-    addBoard() {
-      // mutation 으로 변경해야 함
-      // this.isAddBoard = true;
     },
 
     onAddBoard( title ) {
