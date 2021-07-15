@@ -23,6 +23,7 @@
 <script>
 import { board } from '../api';
 import AddBoard from "./AddBoard";
+import { mapState } from 'vuex';
 
 export default {
   components: {
@@ -33,8 +34,19 @@ export default {
     return {
       loading: false,
       boards: [],
-      isAddBoard: false
+      // isAddBoard: false
     }
+  },
+
+  computed: {
+    // computed 속성에 mapState 결과값을 설정해버리면 따로 computed 속성을 추가할 수 없기 때문에 es6 해체 문법을 사용
+    ...mapState([
+      'isAddBoard'
+    ]),
+
+    // isAddBoard() {
+    //   return this.$store.state.isAddBoard
+    // }
   },
 
   created() {
@@ -61,7 +73,8 @@ export default {
     },
 
     addBoard() {
-      this.isAddBoard = true;
+      // mutation 으로 변경해야 함
+      // this.isAddBoard = true;
     },
 
     onAddBoard( title ) {
