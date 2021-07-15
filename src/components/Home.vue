@@ -14,20 +14,26 @@
           Create new board...
         </a>
       </div>
-
     </div>
+    <!-- popup -->
+    <AddBoard v-if="isAddBoard" @close="isAddBoard = false" @submit="onAddBoard"/>
   </div>
 </template>
 
 <script>
-
 import { board } from '../api';
+import AddBoard from "./AddBoard";
 
 export default {
+  components: {
+    AddBoard
+  },
+
   data() {
     return {
       loading: false,
       boards: [],
+      isAddBoard: false
     }
   },
 
@@ -55,7 +61,15 @@ export default {
     },
 
     addBoard() {
+      this.isAddBoard = true;
+    },
 
+    onAddBoard( title ) {
+      board.create( title )
+      .then( () => {
+        // 모든 board 목록 호출
+        this.fetchData()
+      })
     }
   }
 }

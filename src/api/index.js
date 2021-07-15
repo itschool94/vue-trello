@@ -17,7 +17,7 @@ const request = (method, url, data) => {
       const { status } = error.response
 
       if( status === UNAUTHORIZED ) return onUnauthorized()
-      throw Error(error) // 정의되지 않은 error 들 처리
+      throw Error(error)
     })
 }
 
@@ -30,6 +30,9 @@ export const setAuthInHeader = token => {
 export const board = {
   fetch() {
     return request('get', '/boards')
+  },
+  create( title ) {
+    return request('post', '/boards', {title})
   }
 }
 
