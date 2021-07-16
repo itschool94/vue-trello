@@ -8,8 +8,7 @@
     </div>
 
     <div slot="body">
-      <form id="add-board-form"
-            @submit.prevent="addBoard">
+      <form id="add-board-form" @submit.prevent="addBoard">
         <input class="form-control" type="text" v-model="input" ref="input">
       </form>
     </div>
@@ -23,7 +22,7 @@
 
 <script>
 import Modal from './Modal';
-import { mapMutations } from 'vuex';
+import { mapMutations, mapActions } from 'vuex';
 
 export default {
   components: { Modal },
@@ -50,9 +49,15 @@ export default {
       'SET_IS_ADD_BOARD'
     ]),
 
+    ...mapActions([
+      'ADD_BOARD'
+    ]),
+
     addBoard() {
       this.SET_IS_ADD_BOARD( false );
-      this.$emit('submit', this.input);
+      this.$emit('submit');
+      // this.$store.dispatch('ADD_BOARD', { title: this.input }); // action 호출
+      this.ADD_BOARD({ title: this.input })
     }
   }
 }

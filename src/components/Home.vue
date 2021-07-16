@@ -70,12 +70,8 @@ export default {
         })
     },
 
-    onAddBoard( title ) {
-      board.create( title )
-      .then( () => {
-        // 모든 board 목록 호출
-        this.fetchData()
-      })
+    onAddBoard() {
+      this.fetchData();
     }
   }
 }
