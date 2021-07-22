@@ -11,21 +11,24 @@
 </template>
 
 <script>
-import { setAuthInHeader } from "../api";
+import { mapGetters, mapMutations } from 'vuex';
 
 export default {
   name: "Navbar",
 
   computed: {
-    isAuth() {
-      return !!localStorage.getItem('token'); // token정보를 가져와 boolean 값으로 변환
-    }
+    ...mapGetters([
+      'isAuth'
+    ])
   },
 
   methods: {
+    ...mapMutations([
+      'LOGOUT'
+    ]),
+
     logout() {
-      delete localStorage.token
-      setAuthInHeader(null) // header token값 초기화
+      this.LOGOUT();
       this.$router.push('/login')
     }
   }

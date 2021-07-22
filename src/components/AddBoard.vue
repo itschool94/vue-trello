@@ -50,14 +50,16 @@ export default {
     ]),
 
     ...mapActions([
-      'ADD_BOARD'
+      'ADD_BOARD',
+      'FETCH_BOARDS'
     ]),
 
     addBoard() {
       this.SET_IS_ADD_BOARD( false );
-      this.$emit('submit');
-      // this.$store.dispatch('ADD_BOARD', { title: this.input }); // action 호출
-      this.ADD_BOARD({ title: this.input })
+      this.ADD_BOARD({ title: this.input }).then( () => {
+        this.FETCH_BOARDS();
+      }) // action 호출
+
     }
   }
 }
