@@ -56,10 +56,9 @@ export default {
 
     addBoard() {
       this.SET_IS_ADD_BOARD( false );
-      this.ADD_BOARD({ title: this.input }).then( () => {
-        this.FETCH_BOARDS();
-      }) // action 호출
 
+      this.ADD_BOARD({ title: this.input })
+        .then( ({id}) => this.$router.push(`/b/${id}`))
     }
   }
 }
