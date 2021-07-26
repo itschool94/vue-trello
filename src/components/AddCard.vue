@@ -1,7 +1,7 @@
 <template>
   <div class="add-card">
     <form @submit.prevent="onSubmit">
-      <input class="form-control" type="text" v-model="inputTitle" ref="inputText">
+      <input class="form-control" type="text" v-model="inputTitle" ref="inputText" @blur="$emit('close')">
       <button class="btn btn-success" type="submit" :disabled="invalidInput">Add Card</button>
       <a class="cancel-add-btn" href="#" @click.prevent="$emit('close')">&times;</a>
     </form>
@@ -21,7 +21,6 @@ export default {
 
   computed: {
     invalidInput() {
-      console.log( this.inputTitle.trim() )
       return !this.inputTitle.trim();
     }
   },
@@ -29,11 +28,20 @@ export default {
   // 부모 컴포넌트에 마운트 되서 보여질 때 처리
   mounted() {
     this.$refs.inputText.focus(); // dom 함수 focus 호출
+    this.setupClickOutside( this.$el ); // this.$el : AddCard Component 자체 element
   },
 
   methods: {
     onSubmit() {
+      console.log('submit!');
+    },
 
+    setupClickOutside( el ) {
+      console.log(el);
+      document.querySelector('body').addEventListener('click', e => {
+        if( el.contains( e.target ) ) return
+        this.$emit('close');
+      })
     }
   }
 

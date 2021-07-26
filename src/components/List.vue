@@ -1,11 +1,12 @@
 <template>
   <div class="list">
+
     <div class="list-header">
       <div class="list-header-title">{{ data.title }}</div>
     </div>
 
     <div v-if="isAddCard">
-      <AddCard @close="isAddCard=false"/>
+      <AddCard @close="isAddCard = false "/>
     </div>
 
     <div v-else>
@@ -13,6 +14,7 @@
         &plus; Add a Card...
       </a>
     </div>
+
   </div>
 </template>
 
@@ -22,9 +24,7 @@ import AddCard from "./AddCard";
 export default {
   name: "List",
 
-  components: {
-    AddCard
-  },
+  components: { AddCard },
 
   // 부모 컴포넌트로부터 data라는 key를 통해 인스턴트 데이터를 받겠다~
   props: ['data'],
