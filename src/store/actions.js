@@ -25,6 +25,11 @@ const actions =  {
       // 변이 호출
       commit('SET_BOARD', data.item )
     })
+  },
+  // context 객체, preload
+  ADD_CARD( { dispatch, state }, { title, listId, pos }) {
+    return api.card.create( title, listId, pos )
+      .then( () => dispatch('FETCH_BOARD', { id: state.board.id }) )
   }
 }
 

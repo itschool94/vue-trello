@@ -1,7 +1,7 @@
 <template>
   <div class="add-card">
     <form @submit.prevent="onSubmit">
-      <input class="form-control" type="text" v-model="inputTitle" ref="inputText" @blur="$emit('close')">
+      <input class="form-control" type="text" v-model="inputTitle" ref="inputText">
       <button class="btn btn-success" type="submit" :disabled="invalidInput">Add Card</button>
       <a class="cancel-add-btn" href="#" @click.prevent="$emit('close')">&times;</a>
     </form>
@@ -10,8 +10,12 @@
 
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   name: "AddCard.vue",
+
+  props: ['listId'],
 
   data() {
     return {
@@ -32,16 +36,27 @@ export default {
   },
 
   methods: {
+    ...mapActions([
+      'ADD_CARD'
+    ]),
+
     onSubmit() {
-      console.log('submit!');
+      if( this.invalidInput ) return
+      const { inputTitle, listId } = this;
+      this.ADD_CARD({ title : inputTitle, listId })
+      .finally( () => this.inputTitle = '')
     },
 
     setupClickOutside( el ) {
-      console.log(el);
-      document.querySelector('body').addEventListener('click', e => {
-        if( el.contains( e.target ) ) return
-        this.$emit('close');
-      })
+      // console.log(el);
+      setTimeout( () => {
+        document.querySelector('body').addEventListener('click', e => {
+          console.log( "click handler" );
+          if( el.contains( e.target ) ) return
+          this.$emit('close');
+        })
+
+      }, 1 );
     }
   }
 

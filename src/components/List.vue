@@ -5,10 +5,13 @@
       <div class="list-header-title">{{ data.title }}</div>
     </div>
 
-    <div v-if="isAddCard">
-      <AddCard @close="isAddCard = false "/>
+    <div class="card-list">
+      <cardItem v-for="card in data.cards" :key="card.id" :data="card"></cardItem>
     </div>
 
+    <div v-if="isAddCard">
+      <AddCard :list-id="data.id" @close="isAddCard = false "/>
+    </div>
     <div v-else>
       <a href="#" class="add-card-btn" @click.prevent="isAddCard = true">
         &plus; Add a Card...
@@ -20,11 +23,12 @@
 
 <script>
 import AddCard from "./AddCard";
+import CardItem from "./CardItem";
 
 export default {
   name: "List",
 
-  components: { AddCard },
+  components: { AddCard, CardItem },
 
   // 부모 컴포넌트로부터 data라는 key를 통해 인스턴트 데이터를 받겠다~
   props: ['data'],
