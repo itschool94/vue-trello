@@ -50,7 +50,10 @@ export const card = {
   fetch(id) {
     return request('get',`/cards/${id}`)
   },
-  update(id,payload) {
+  update(id, payload) {
     return request('put',`/cards/${id}`, payload)
+  },
+  destroy(id) {
+    return request('delete', `/cards/${id}`)
   }
 }
