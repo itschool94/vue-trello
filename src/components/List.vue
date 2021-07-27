@@ -13,7 +13,8 @@
       <AddCard :list-id="data.id" @close="isAddCard = false "/>
     </div>
     <div v-else>
-      <a href="#" class="add-card-btn" @click.prevent="isAddCard = true">
+      <!-- event 버블링 방지 -->
+      <a href="#" class="add-card-btn" @click.prevent.stop="isAddCard = true">
         &plus; Add a Card...
       </a>
     </div>
