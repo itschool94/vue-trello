@@ -66,3 +66,9 @@ export const card = {
     return request('delete', `/cards/${id}`)
   }
 }
+
+export const list = {
+  create( payload ) {
+    return request('post', '/lists', payload )
+  }
+}
