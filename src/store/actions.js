@@ -26,6 +26,12 @@ const actions =  {
       commit('SET_BOARD', data.item )
     })
   },
+
+  UPDATE_BOARD( { dispatch, state }, { id, title, bgColor } ) {
+    return api.board.update( id, { id, title, bgColor })
+      .then( _ => dispatch('FETCH_BOARD', { id: state.board.id }) )
+  },
+
   // context 객체, preload
   ADD_CARD( { dispatch, state }, { title, listId, pos }) {
     return api.card.create( title, listId, pos )
