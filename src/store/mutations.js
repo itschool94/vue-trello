@@ -33,6 +33,10 @@ const mutations = {
   SET_THEME ( state, color ) {
     state.navbarColor = color ? 'rgba(0,0,0,.15)' : '#026aa7'
     state.bodyColor = color || '#ffffff'
+  },
+
+  SET_IS_SHOW_BOARD_SETTINGS( state, toggle ) {
+    state.isShowBoardSettings = toggle;
   }
 }
 
