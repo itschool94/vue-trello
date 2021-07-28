@@ -21,7 +21,6 @@
 </template>
 
 <script>
-import { board } from '../api';
 import AddBoard from "./AddBoard";
 import { mapState, mapMutations, mapActions } from 'vuex';
 
@@ -45,6 +44,7 @@ export default {
 
   created() {
     this.fetchData();
+    this.SET_THEME();
   },
 
   updated() {
@@ -55,7 +55,8 @@ export default {
 
   methods: {
     ...mapMutations([
-      'SET_IS_ADD_BOARD'
+      'SET_IS_ADD_BOARD',
+      'SET_THEME'
     ]),
 
     ...mapActions([

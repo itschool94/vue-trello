@@ -45,7 +45,6 @@ const actions =  {
   },
 
   DELETE_CARD( { dispatch, state }, {id} ) {
-    console.log(id)
     return api.card.destroy( id )
       .then( _ => dispatch('FETCH_BOARD', { id: state.board.id }) )
   }
