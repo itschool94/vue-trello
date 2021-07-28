@@ -47,8 +47,11 @@ const actions =  {
   DELETE_CARD( { dispatch, state }, {id} ) {
     return api.card.destroy( id )
       .then( _ => dispatch('FETCH_BOARD', { id: state.board.id }) )
-  }
+  },
 
+  DELETE_BOARD( _, {id} ) {
+    return api.board.destroy( id )
+  }
 }
 
 export default actions;
