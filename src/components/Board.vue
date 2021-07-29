@@ -3,7 +3,8 @@
     <div class="board-wrapper">
       <div class="board">
         <div class="board-header">
-          <input type="text" class="form-control" v-if="isEditTitle" v-model="inputTitle" ref="inputTitle" @blur="onSubmitTitle" @keyup.enter="onSubmitTitle">
+          <input type="text" class="form-control" v-if="isEditTitle" v-model="inputTitle"
+                 ref="inputTitle" @blur="onSubmitTitle" @keyup.enter="onSubmitTitle">
           <span class="board-title" v-else @click="onClickTitle">{{ board.title }}</span>
 
           <a href="" class="board-header-btn show-menu" @click.prevent="onShowSettings">
@@ -12,8 +13,11 @@
         </div>
 
         <div class="list-section-wrapper">
+
+          <!-- list-section -->
           <div class="list-section">
-            <div class="list-wrapper" v-for="list in board.lists" :key="list.pos">
+            <div class="list-wrapper" v-for="list in board.lists" :key="list.pos"
+                 :data-list-id="list.id">
               <List :data="list"/> <!-- list bind -->
             </div>
 
@@ -21,6 +25,8 @@
               <AddList />
             </div>
           </div>
+          <!-- // list-section -->
+
         </div>
       </div>
     </div>
@@ -52,6 +58,7 @@ export default {
       bid: 0,
       loading: false,
       cDragger: null,
+      lDragger: null,
       isEditTitle: false,
       inputTitle: ''
     }
@@ -60,6 +67,7 @@ export default {
   // 자식 컴포넌트가 모두 렌더링 된다음에 호출하기 위해
   updated() {
     this.setCardDragabble();
+    this.setListDragabble();
   },
 
   computed: {
@@ -87,7 +95,8 @@ export default {
     ...mapActions([
       'FETCH_BOARD',
       'UPDATE_CARD',
-      'UPDATE_BOARD'
+      'UPDATE_BOARD',
+      'UPDATE_LIST'
     ]),
 
     onClickTitle() {
@@ -137,10 +146,42 @@ export default {
         })
 
         if( !prev && next ) targetCard.pos = next.pos / 2;
-        else if( !next && prev ) targetCard.pos = next.pos * 2;
-        else if( next && prev ) targetCard.pos = ( prev.pos + next.pos ) / 2;
+        else if( !next && prev ) targetCard.pos = prev.pos * 2;
+        else if ( prev && next ) targetCard.pos = (prev.pos + next.pos) / 2
 
         this.UPDATE_CARD( targetCard );
+      })
+    },
+
+    setListDragabble() {
+      if ( this.lDragger ) this.lDragger.destroy();
+
+      const options = {
+        invalid: ( el, handle ) => !/^list/.test(handle.className)
+      }
+
+      this.lDragger = dragger.init(
+        Array.from(this.$el.querySelectorAll('.list-section')),
+        options
+      );
+
+      this.lDragger.on('drop',( el, wrapper, target, siblings ) => {
+        const targetList = {
+          id: el.dataset.listId  * 1,
+          pos: 65535
+        }
+        const {prev, next} = dragger.siblings({
+          el,
+          wrapper,
+          candidates: Array.from(wrapper.querySelectorAll('.list')),
+          type: 'list'
+        })
+
+        if (!prev && next) targetList.pos = next.pos / 2
+        else if (!next && prev) targetList.pos = prev.pos * 2
+        else if ( prev && next ) targetList.pos = (prev.pos + next.pos) / 2
+
+        this.UPDATE_LIST( targetList );
       })
     }
   }

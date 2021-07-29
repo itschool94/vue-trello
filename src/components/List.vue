@@ -1,12 +1,12 @@
 <template>
-  <div class="list">
+  <div class="list" :data-list-id="data.id" :data-list-pos="data.pos">
 
     <div class="list-header">
       <input type="text" v-if="isEditTitle" class="form-control input-title" v-model="inputTitle" ref="inputTitle" @blur="onSubmitTitle" @keyup.enter="onSubmitTitle">
       <div v-else class="list-header-title" @click="onClickTitle">{{ data.title }}</div>
     </div>
 
-    <div class="card-list">
+    <div class="card-list" :data-list-id="data.id">
       <cardItem v-for="card in data.cards" :key="card.id" :data="card"></cardItem>
     </div>
 

@@ -45,7 +45,7 @@ export default {
       const { inputTitle, listId } = this;
       const pos = this.newCardPos();
       this.ADD_CARD({ title : inputTitle, listId, pos })
-      .finally( () => this.inputTitle = '')
+      .finally( _ => this.inputTitle = '')
     },
 
     newCardPos() {
@@ -59,7 +59,6 @@ export default {
 
     setupClickOutside( el ) {
         document.querySelector('body').addEventListener('click', e => {
-          console.log( "click handler" );
           if( el.contains( e.target ) ) return
           this.$emit('close');
         })

@@ -2,8 +2,8 @@ import dragula from 'dragula';
 import 'dragula/dist/dragula.css'
 
 const dragger = {
-  init( container ) {
-    return dragula([...container])
+  init( container, options ) {
+    return dragula([...container], options )
   },
 
   siblings( { el, wrapper, candidates, type } ) { // candidates : array
@@ -22,11 +22,10 @@ const dragger = {
 
         next = idx < arr.length - 1 ? {
           id: arr[idx + 1].dataset[type + 'Id'] * 1,
-          pos: arr[idx + 1].dataset[type + 'Pos'] *1
+          pos: arr[idx + 1].dataset[type + 'Pos'] * 1
         } : null
       }
     })
-
 
     return { prev, next }
   }

@@ -17,7 +17,7 @@ export default {
 
   computed: {
     ...mapState({
-      boardId: state => state.board.id
+      'boardId': state => state.board.id
     })
   },
 
